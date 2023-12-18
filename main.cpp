@@ -7,34 +7,16 @@
 #include "EBO.h"
 #include "VAO.h"
 
-// Vertex Shader source code
-const char* vertexShaderSource = "#version 330 core\n"
-"layout (location = 0) in vec3 aPos;\n"
-"void main()\n"
-"{\n"
-"   gl_Position = vec4(aPos.x, aPos.y, aPos.z, 1.0);\n"
-"}\0";
-
-
-//Fragment Shader source code
-const char* fragmentShaderSource = "#version 330 core\n"
-"out vec4 FragColor;\n"
-"void main()\n"
-"{\n"
-"   FragColor = vec4(0.8f, 0.3f, 0.02f, 1.0f);\n"
-"}\n\0";
-
-
-
 //vertices coordinates for our triangle
+//XYZRGB
 GLfloat vertices[] =
 {
-	-0.5f, -0.5f * float(sqrt(3)) / 3, 0.0f, // Lower left corner
-	0.5f, -0.5f * float(sqrt(3)) / 3, 0.0f, // Lower right corner
-	0.0f, 0.5f * float(sqrt(3)) * 2 / 3, 0.0f, // Upper corner
-	-0.5f / 2, 0.5f * float(sqrt(3)) / 6, 0.0f, // Inner left
-	0.5f / 2, 0.5f * float(sqrt(3)) / 6, 0.0f, // Inner right
-	0.0f, -0.5f * float(sqrt(3)) / 3, 0.0f // Inner down
+	-0.5f, -0.5f * float(sqrt(3)) / 3, 0.0f, 0.8f, 0.3f, 0.02f,// Lower left corner
+	0.5f, -0.5f * float(sqrt(3)) / 3, 0.0f, 0.8f, 0.3f, 0.2f,// Lower right corner
+	0.0f, 0.5f * float(sqrt(3)) * 2 / 3, 0.0f, 1.0f, 0.6f, 0.32f,// Upper corner
+	-0.5f / 2, 0.5f * float(sqrt(3)) / 6, 0.0f, 0.9f,0.45f,0.17f,// Inner left
+	0.5f / 2, 0.5f * float(sqrt(3)) / 6, 0.0f,0.9f,0.45f,0.17f, // Inner right
+	0.0f, -0.5f * float(sqrt(3)) / 3, 0.0f,0.8f,0.3f,0.2f // Inner down
 };
 
 // Indices for vertices order
@@ -54,7 +36,6 @@ int main()
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-
 
 	GLFWwindow* window = glfwCreateWindow(800, 800, "YoutubeOpenGL", NULL, NULL);
 	if (window == NULL)
@@ -80,7 +61,10 @@ int main()
 	VBO VBO1(vertices, sizeof(vertices));// Generates Vertex Buffer Object and links it to vertices
 	EBO EBO1(indices, sizeof(indices));// Generates Element Buffer Object and links it to indices
 
-	VAO1.LinkVBO(VBO1, 0);// Links VBO to VAO
+	// Links VBO to VAO
+	VAO1.LinkAttrib(VBO1, 0, 3, GL_FLOAT, 6*sizeof(float),(void*)0);//coordinates
+	VAO1.LinkAttrib(VBO1, 1, 3, GL_FLOAT, 6 * sizeof(float), (void*)(3*sizeof(float)));//colors
+
 	// Unbind all to prevent accidentally modifying them
 	VAO1.Unbind();
 	VBO1.Unbind();

@@ -21,7 +21,7 @@
     <ClCompile Include="..\..\..\..\..\..\lib\source_packages\glad\src\glad.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source.cpp">
+    <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="shaderClass.cpp">
