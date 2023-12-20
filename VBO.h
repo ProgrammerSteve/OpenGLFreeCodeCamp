@@ -1,5 +1,4 @@
-#ifndef VBO_CLASS_H
-#define VBO_CLASS_H
+#pragma once
 
 #include<glad/glad.h>
 #include<string>
@@ -18,6 +17,3 @@ public:
 	void Unbind();
 	void Delete();
 };
-
-
-#endif

@@ -1,4 +1,5 @@
 #include"shaderClass.h"
+#include "GLDebug.h"
 
 // Reads a text file and outputs a string with everything in the text file
 std::string get_file_contents(const char* filename)
@@ -29,46 +30,46 @@ Shader::Shader(const char* vertexFile, const char* fragmentFile)
 	const char* fragmentSource = fragmentCode.c_str();
 
 	// Create Vertex Shader Object and get its reference
-	GLuint vertexShader = glCreateShader(GL_VERTEX_SHADER);
+	GLCall(GLuint vertexShader = glCreateShader(GL_VERTEX_SHADER));
 	// Attach Vertex Shader source to the Vertex Shader Object
-	glShaderSource(vertexShader, 1, &vertexSource, NULL);
+	GLCall(glShaderSource(vertexShader, 1, &vertexSource, NULL));
 	// Compile the Vertex Shader into machine code
-	glCompileShader(vertexShader);
+	GLCall(glCompileShader(vertexShader));
 	compileErrors(vertexShader,"VERTEX");
 
 	// Create Fragment Shader Object and get its reference
-	GLuint fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
+	GLCall(GLuint fragmentShader = glCreateShader(GL_FRAGMENT_SHADER));
 	// Attach Fragment Shader source to the Fragment Shader Object
-	glShaderSource(fragmentShader, 1, &fragmentSource, NULL);
+	GLCall(glShaderSource(fragmentShader, 1, &fragmentSource, NULL));
 	// Compile the Vertex Shader into machine code
-	glCompileShader(fragmentShader);
+	GLCall(glCompileShader(fragmentShader));
 	compileErrors(fragmentShader, "FRAGMENT");
 
 	// Create Shader Program Object and get its reference
-	ID = glCreateProgram();
+	GLCall(ID = glCreateProgram());
 	// Attach the Vertex and Fragment Shaders to the Shader Program
-	glAttachShader(ID, vertexShader);
-	glAttachShader(ID, fragmentShader);
+	GLCall(glAttachShader(ID, vertexShader));
+	GLCall(glAttachShader(ID, fragmentShader));
 	// Wrap-up/Link all the shaders together into the Shader Program
-	glLinkProgram(ID);
+	GLCall(glLinkProgram(ID));
 	compileErrors(ID, "PROGRAM");
 
 	// Delete the now useless Vertex and Fragment Shader objects
-	glDeleteShader(vertexShader);
-	glDeleteShader(fragmentShader);
+	GLCall(glDeleteShader(vertexShader));
+	GLCall(glDeleteShader(fragmentShader));
 
 }
 
 // Activates the Shader Program
 void Shader::Activate()
 {
-	glUseProgram(ID);
+	GLCall(glUseProgram(ID));
 }
 
 // Deletes the Shader Program
 void Shader::Delete()
 {
-	glDeleteProgram(ID);
+	GLCall(glDeleteProgram(ID));
 }
 
 void Shader::compileErrors(unsigned int shader, const char* type)
