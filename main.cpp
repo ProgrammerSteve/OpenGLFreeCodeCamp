@@ -12,6 +12,10 @@
 #include "stb/stb_image.h"
 #include "GLDebug.h"
 
+#include<glm/glm.hpp>
+#include<glm/gtc/matrix_transform.hpp>
+#include<glm/gtc/type_ptr.hpp>
+
 
 
 //vertices coordinates for our triangle
@@ -112,6 +116,11 @@ int main()
 		glClearColor(0.07f, 0.13f, 0.17f, 1.0f);// Specify the color of the background
 		glClear(GL_COLOR_BUFFER_BIT);// Clean the back buffer and assign the new color to it
 		shaderProgram.Activate();// Tell OpenGL which Shader Program we want to use
+
+		glm::mat4 model = glm::mat4(1.0f);
+		glm::mat4 view = glm::mat4(1.0f);
+		glm::mat4 proj = glm::mat4(1.0f);
+
 		glUniform1f(uniID, 0.5f);
 		clock.Bind();
 		VAO1.Bind();// Bind the VAO so OpenGL knows to use it
