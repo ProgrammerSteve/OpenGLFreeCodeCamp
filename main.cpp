@@ -94,16 +94,33 @@ int main()
 	// Texture
 	Texture clock("clock.png", GL_TEXTURE_2D, GL_TEXTURE0, GL_RGB, GL_UNSIGNED_BYTE);
 	clock.texUnit(shaderProgram, "tex0", 0);
+	
+	float rotation = 0.0f;
+	double prevTime = glfwGetTime();
+
+	glEnable(GL_DEPTH_TEST);
 
 	while (!glfwWindowShouldClose(window)) 
 	{
 		glClearColor(0.07f, 0.13f, 0.17f, 1.0f);// Specify the color of the background
-		glClear(GL_COLOR_BUFFER_BIT);// Clean the back buffer and assign the new color to it
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);// Clean the back buffer and assign the new color to it
 		shaderProgram.Activate();// Tell OpenGL which Shader Program we want to use
+
+
+		//change half a degree every 60 seconds
+		double currentTime = glfwGetTime();
+		if (currentTime - prevTime >= 1 / 60)
+		{
+			rotation+= 0.25f;
+			prevTime = currentTime;
+		}
+
 
 		glm::mat4 model = glm::mat4(1.0f);
 		glm::mat4 view = glm::mat4(1.0f);
 		glm::mat4 proj = glm::mat4(1.0f);
+
+		model = glm::rotate(model, glm::radians(rotation),glm::vec3(0.0f,1.0f,0.0f));
 		view = glm::translate(view, glm::vec3(0.0f,-0.5f,-2.0f));
 		proj = glm::perspective(glm::radians(45.0f),(float)(width/height),0.1f,100.0f);
 
@@ -117,7 +134,7 @@ int main()
 		glUniformMatrix4fv(projLoc, 1, GL_FALSE, glm::value_ptr(proj));
 
 
-		glUniform1f(uniID, 0.5f);
+		glUniform1f(uniID, 0.1f);
 		clock.Bind();
 		VAO1.Bind();// Bind the VAO so OpenGL knows to use it
 		glDrawElements(GL_TRIANGLES, sizeof(indices)/sizeof(int), GL_UNSIGNED_INT, 0);// Draw primitives, number of indices, datatype of indices, index of indices
