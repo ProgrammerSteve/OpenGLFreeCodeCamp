@@ -148,6 +148,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\..\..\..\lib\source_packages\glad\src\glad.c" />
+    <ClCompile Include="Camera.cpp" />
     <ClCompile Include="EBO.cpp" />
     <ClCompile Include="Libraries\include\stb\stb.cpp" />
     <ClCompile Include="shaderClass.cpp" />
@@ -161,6 +162,7 @@
     <None Include="default.vert" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Camera.h" />
     <ClInclude Include="EBO.h" />
     <ClInclude Include="GLDebug.h" />
     <ClInclude Include="shaderClass.h" />

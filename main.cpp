@@ -8,6 +8,7 @@
 #include "VBO.h"
 #include "EBO.h"
 #include "VAO.h"
+#include "Camera.h"
 
 #include "stb/stb_image.h"
 #include "GLDebug.h"
